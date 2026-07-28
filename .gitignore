@@ -1,0 +1,32 @@
+# Secrets
+.env
+*.key
+
+# Datasets (too large for git; document sources instead)
+datasets/*
+!datasets/.gitkeep
+!datasets/README.md
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Conda / venv
+conda-envs/
+*.egg-info/
+
+# Docker volumes / data
+infra/pgdata/
+infra/kafka-data/
+
+# OS
+.DS_Store
+
+# Experiment outputs (large logs — decide later if any should be tracked)
+experiments/raw_logs/*
+!experiments/raw_logs/.gitkeep
+
+# IDE
+.vscode/
+.idea/
