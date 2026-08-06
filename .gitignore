@@ -30,3 +30,7 @@ experiments/raw_logs/*
 # IDE
 .vscode/
 .idea/
+
+# Airflow runtime logs (regenerated on every run, not reproducibility-relevant)
+infra/airflow/logs/*
+!infra/airflow/logs/.gitkeep

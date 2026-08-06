@@ -1,0 +1,131 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: shield-postgres
+    environment:
+      POSTGRES_USER: shield
+      POSTGRES_PASSWORD: shield_dev_pw
+      POSTGRES_DB: shield_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shield"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    container_name: shield-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: shield-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: shield-prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    ports:
+      - "9090:9090"
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: shield-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: shield_dev_pw
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  airflow-init:
+    image: apache/airflow:2.9.3
+    container_name: shield-airflow-init
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://shield:shield_dev_pw@postgres:5432/airflow_meta
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    entrypoint: /bin/bash
+    command: -c "airflow db migrate && airflow users create --username admin --password admin --firstname Shri --lastname Admin --role Admin --email admin@example.com"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+  airflow-webserver:
+    image: apache/airflow:2.9.3
+    container_name: shield-airflow-webserver
+    depends_on:
+      - airflow-init
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://shield:shield_dev_pw@postgres:5432/airflow_meta
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    command: webserver
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+  airflow-scheduler:
+    image: apache/airflow:2.9.3
+    container_name: shield-airflow-scheduler
+    depends_on:
+      - airflow-init
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://shield:shield_dev_pw@postgres:5432/airflow_meta
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    command: scheduler
+    deploy:
+      resources:
+        limits:
+          memory: 1.5g
+
+volumes:
+  pgdata:
