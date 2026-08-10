@@ -1,0 +1,474 @@
+{
+  "schema_name": "tpch",
+  "tables": {
+    "customer": {
+      "columns": [
+        {
+          "column": "c_custkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "c_name",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "c_address",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "c_nationkey",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "c_phone",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "c_acctbal",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "c_mktsegment",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "c_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "c_custkey"
+      ]
+    },
+    "lineitem": {
+      "columns": [
+        {
+          "column": "l_orderkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "l_partkey",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_suppkey",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_linenumber",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "l_quantity",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_extendedprice",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_discount",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_tax",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_returnflag",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_linestatus",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_shipdate",
+          "type": "date",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_commitdate",
+          "type": "date",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_receiptdate",
+          "type": "date",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_shipinstruct",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_shipmode",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "l_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "l_orderkey",
+        "l_linenumber"
+      ]
+    },
+    "nation": {
+      "columns": [
+        {
+          "column": "n_nationkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "n_name",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "n_regionkey",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "n_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "n_nationkey"
+      ]
+    },
+    "orders": {
+      "columns": [
+        {
+          "column": "o_orderkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "o_custkey",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_orderstatus",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_totalprice",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_orderdate",
+          "type": "date",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_orderpriority",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_clerk",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_shippriority",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "o_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "o_orderkey"
+      ]
+    },
+    "part": {
+      "columns": [
+        {
+          "column": "p_partkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "p_name",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_mfgr",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_brand",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_type",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_size",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_container",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_retailprice",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "p_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "p_partkey"
+      ]
+    },
+    "partsupp": {
+      "columns": [
+        {
+          "column": "ps_partkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "ps_suppkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "ps_availqty",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "ps_supplycost",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "ps_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "ps_partkey",
+        "ps_suppkey"
+      ]
+    },
+    "region": {
+      "columns": [
+        {
+          "column": "r_regionkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "r_name",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "r_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "r_regionkey"
+      ]
+    },
+    "supplier": {
+      "columns": [
+        {
+          "column": "s_suppkey",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "s_name",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "s_address",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "s_nationkey",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "s_phone",
+          "type": "character",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "s_acctbal",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "s_comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        }
+      ],
+      "primary_keys": [
+        "s_suppkey"
+      ]
+    }
+  },
+  "foreign_keys": [
+    {
+      "from_table": "customer",
+      "from_column": "c_nationkey",
+      "to_table": "nation",
+      "to_column": "n_nationkey"
+    },
+    {
+      "from_table": "lineitem",
+      "from_column": "l_orderkey",
+      "to_table": "orders",
+      "to_column": "o_orderkey"
+    },
+    {
+      "from_table": "nation",
+      "from_column": "n_regionkey",
+      "to_table": "region",
+      "to_column": "r_regionkey"
+    },
+    {
+      "from_table": "orders",
+      "from_column": "o_custkey",
+      "to_table": "customer",
+      "to_column": "c_custkey"
+    },
+    {
+      "from_table": "partsupp",
+      "from_column": "ps_partkey",
+      "to_table": "part",
+      "to_column": "p_partkey"
+    },
+    {
+      "from_table": "partsupp",
+      "from_column": "ps_suppkey",
+      "to_table": "supplier",
+      "to_column": "s_suppkey"
+    },
+    {
+      "from_table": "supplier",
+      "from_column": "s_nationkey",
+      "to_table": "nation",
+      "to_column": "n_nationkey"
+    }
+  ],
+  "llm_summary": "This database schema models a business environment involving customers, suppliers, parts, and orders. The `customer` table stores information about clients, linking them to their respective nations through the `nation` table, which in turn is connected to regions via the `region` table. Orders placed by customers are recorded in the `orders` table, with each order linked back to a customer and detailed line items stored in the `lineitem` table. The `supplier`, `part`, and `partsupp` tables manage suppliers, parts they supply, and the relationship between parts and suppliers, respectively. Each supplier is also associated with a nation, creating a comprehensive network of business relationships across different geographical regions."
+}

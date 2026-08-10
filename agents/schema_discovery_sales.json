@@ -1,0 +1,1157 @@
+{
+  "schema_name": "sales",
+  "tables": {
+    "countryregioncurrency": {
+      "columns": [
+        {
+          "column": "countryregioncode",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "currencycode",
+          "type": "character",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "countryregioncode",
+        "currencycode"
+      ]
+    },
+    "creditcard": {
+      "columns": [
+        {
+          "column": "creditcardid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.creditcard_creditcardid_seq'::regclass)"
+        },
+        {
+          "column": "cardtype",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "cardnumber",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "expmonth",
+          "type": "smallint",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "expyear",
+          "type": "smallint",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "creditcardid"
+      ]
+    },
+    "currency": {
+      "columns": [
+        {
+          "column": "currencycode",
+          "type": "character",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "name",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "currencycode"
+      ]
+    },
+    "currencyrate": {
+      "columns": [
+        {
+          "column": "currencyrateid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.currencyrate_currencyrateid_seq'::regclass)"
+        },
+        {
+          "column": "currencyratedate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "fromcurrencycode",
+          "type": "character",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "tocurrencycode",
+          "type": "character",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "averagerate",
+          "type": "numeric",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "endofdayrate",
+          "type": "numeric",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "currencyrateid"
+      ]
+    },
+    "customer": {
+      "columns": [
+        {
+          "column": "customerid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.customer_customerid_seq'::regclass)"
+        },
+        {
+          "column": "personid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "storeid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "territoryid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "customerid"
+      ]
+    },
+    "personcreditcard": {
+      "columns": [
+        {
+          "column": "businessentityid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "creditcardid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "businessentityid",
+        "creditcardid"
+      ]
+    },
+    "salesorderdetail": {
+      "columns": [
+        {
+          "column": "salesorderid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "salesorderdetailid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.salesorderdetail_salesorderdetailid_seq'::regclass)"
+        },
+        {
+          "column": "carriertrackingnumber",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "orderqty",
+          "type": "smallint",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "productid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "specialofferid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "unitprice",
+          "type": "numeric",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "unitpricediscount",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.0"
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "salesorderid",
+        "salesorderdetailid"
+      ]
+    },
+    "salesorderheader": {
+      "columns": [
+        {
+          "column": "salesorderid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.salesorderheader_salesorderid_seq'::regclass)"
+        },
+        {
+          "column": "revisionnumber",
+          "type": "smallint",
+          "nullable": false,
+          "default": "0"
+        },
+        {
+          "column": "orderdate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        },
+        {
+          "column": "duedate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "shipdate",
+          "type": "timestamp without time zone",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "status",
+          "type": "smallint",
+          "nullable": false,
+          "default": "1"
+        },
+        {
+          "column": "onlineorderflag",
+          "type": "boolean",
+          "nullable": false,
+          "default": "true"
+        },
+        {
+          "column": "purchaseordernumber",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "accountnumber",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "customerid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "salespersonid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "territoryid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "billtoaddressid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "shiptoaddressid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "shipmethodid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "creditcardid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "creditcardapprovalcode",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "currencyrateid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "subtotal",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "taxamt",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "freight",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "totaldue",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "comment",
+          "type": "character varying",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "salesorderid"
+      ]
+    },
+    "salesorderheadersalesreason": {
+      "columns": [
+        {
+          "column": "salesorderid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "salesreasonid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "salesorderid",
+        "salesreasonid"
+      ]
+    },
+    "salesperson": {
+      "columns": [
+        {
+          "column": "businessentityid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "territoryid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "salesquota",
+          "type": "numeric",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "bonus",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "commissionpct",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "salesytd",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "saleslastyear",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "businessentityid"
+      ]
+    },
+    "salespersonquotahistory": {
+      "columns": [
+        {
+          "column": "businessentityid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "quotadate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "salesquota",
+          "type": "numeric",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "businessentityid",
+        "quotadate"
+      ]
+    },
+    "salesreason": {
+      "columns": [
+        {
+          "column": "salesreasonid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.salesreason_salesreasonid_seq'::regclass)"
+        },
+        {
+          "column": "name",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "reasontype",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "salesreasonid"
+      ]
+    },
+    "salestaxrate": {
+      "columns": [
+        {
+          "column": "salestaxrateid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.salestaxrate_salestaxrateid_seq'::regclass)"
+        },
+        {
+          "column": "stateprovinceid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "taxtype",
+          "type": "smallint",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "taxrate",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "name",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "salestaxrateid"
+      ]
+    },
+    "salesterritory": {
+      "columns": [
+        {
+          "column": "territoryid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.salesterritory_territoryid_seq'::regclass)"
+        },
+        {
+          "column": "name",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "countryregioncode",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "group",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "salesytd",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "saleslastyear",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "costytd",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "costlastyear",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "territoryid"
+      ]
+    },
+    "salesterritoryhistory": {
+      "columns": [
+        {
+          "column": "businessentityid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "territoryid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "startdate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "enddate",
+          "type": "timestamp without time zone",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "businessentityid",
+        "startdate",
+        "territoryid"
+      ]
+    },
+    "shoppingcartitem": {
+      "columns": [
+        {
+          "column": "shoppingcartitemid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.shoppingcartitem_shoppingcartitemid_seq'::regclass)"
+        },
+        {
+          "column": "shoppingcartid",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "quantity",
+          "type": "integer",
+          "nullable": false,
+          "default": "1"
+        },
+        {
+          "column": "productid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "datecreated",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "shoppingcartitemid"
+      ]
+    },
+    "specialoffer": {
+      "columns": [
+        {
+          "column": "specialofferid",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('sales.specialoffer_specialofferid_seq'::regclass)"
+        },
+        {
+          "column": "description",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "discountpct",
+          "type": "numeric",
+          "nullable": false,
+          "default": "0.00"
+        },
+        {
+          "column": "type",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "category",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "startdate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "enddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "minqty",
+          "type": "integer",
+          "nullable": false,
+          "default": "0"
+        },
+        {
+          "column": "maxqty",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "specialofferid"
+      ]
+    },
+    "specialofferproduct": {
+      "columns": [
+        {
+          "column": "specialofferid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "productid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "specialofferid",
+        "productid"
+      ]
+    },
+    "store": {
+      "columns": [
+        {
+          "column": "businessentityid",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "name",
+          "type": "character varying",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "column": "salespersonid",
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "demographics",
+          "type": "xml",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "column": "rowguid",
+          "type": "uuid",
+          "nullable": false,
+          "default": "uuid_generate_v1()"
+        },
+        {
+          "column": "modifieddate",
+          "type": "timestamp without time zone",
+          "nullable": false,
+          "default": "now()"
+        }
+      ],
+      "primary_keys": [
+        "businessentityid"
+      ]
+    }
+  },
+  "foreign_keys": [
+    {
+      "from_table": "countryregioncurrency",
+      "from_column": "countryregioncode",
+      "to_table": "countryregion",
+      "to_column": "countryregioncode"
+    },
+    {
+      "from_table": "countryregioncurrency",
+      "from_column": "currencycode",
+      "to_table": "currency",
+      "to_column": "currencycode"
+    },
+    {
+      "from_table": "currencyrate",
+      "from_column": "fromcurrencycode",
+      "to_table": "currency",
+      "to_column": "currencycode"
+    },
+    {
+      "from_table": "currencyrate",
+      "from_column": "tocurrencycode",
+      "to_table": "currency",
+      "to_column": "currencycode"
+    },
+    {
+      "from_table": "customer",
+      "from_column": "personid",
+      "to_table": "person",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "customer",
+      "from_column": "territoryid",
+      "to_table": "salesterritory",
+      "to_column": "territoryid"
+    },
+    {
+      "from_table": "customer",
+      "from_column": "storeid",
+      "to_table": "store",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "personcreditcard",
+      "from_column": "creditcardid",
+      "to_table": "creditcard",
+      "to_column": "creditcardid"
+    },
+    {
+      "from_table": "personcreditcard",
+      "from_column": "businessentityid",
+      "to_table": "person",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "salesorderdetail",
+      "from_column": "salesorderid",
+      "to_table": "salesorderheader",
+      "to_column": "salesorderid"
+    },
+    {
+      "from_table": "salesorderdetail",
+      "from_column": "specialofferid",
+      "to_table": "specialofferproduct",
+      "to_column": "specialofferid"
+    },
+    {
+      "from_table": "salesorderdetail",
+      "from_column": "productid",
+      "to_table": "specialofferproduct",
+      "to_column": "productid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "billtoaddressid",
+      "to_table": "address",
+      "to_column": "addressid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "shiptoaddressid",
+      "to_table": "address",
+      "to_column": "addressid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "creditcardid",
+      "to_table": "creditcard",
+      "to_column": "creditcardid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "currencyrateid",
+      "to_table": "currencyrate",
+      "to_column": "currencyrateid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "customerid",
+      "to_table": "customer",
+      "to_column": "customerid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "salespersonid",
+      "to_table": "salesperson",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "territoryid",
+      "to_table": "salesterritory",
+      "to_column": "territoryid"
+    },
+    {
+      "from_table": "salesorderheader",
+      "from_column": "shipmethodid",
+      "to_table": "shipmethod",
+      "to_column": "shipmethodid"
+    },
+    {
+      "from_table": "salesorderheadersalesreason",
+      "from_column": "salesorderid",
+      "to_table": "salesorderheader",
+      "to_column": "salesorderid"
+    },
+    {
+      "from_table": "salesorderheadersalesreason",
+      "from_column": "salesreasonid",
+      "to_table": "salesreason",
+      "to_column": "salesreasonid"
+    },
+    {
+      "from_table": "salesperson",
+      "from_column": "businessentityid",
+      "to_table": "employee",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "salesperson",
+      "from_column": "territoryid",
+      "to_table": "salesterritory",
+      "to_column": "territoryid"
+    },
+    {
+      "from_table": "salespersonquotahistory",
+      "from_column": "businessentityid",
+      "to_table": "salesperson",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "salestaxrate",
+      "from_column": "stateprovinceid",
+      "to_table": "stateprovince",
+      "to_column": "stateprovinceid"
+    },
+    {
+      "from_table": "salesterritory",
+      "from_column": "countryregioncode",
+      "to_table": "countryregion",
+      "to_column": "countryregioncode"
+    },
+    {
+      "from_table": "salesterritoryhistory",
+      "from_column": "businessentityid",
+      "to_table": "salesperson",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "salesterritoryhistory",
+      "from_column": "territoryid",
+      "to_table": "salesterritory",
+      "to_column": "territoryid"
+    },
+    {
+      "from_table": "shoppingcartitem",
+      "from_column": "productid",
+      "to_table": "product",
+      "to_column": "productid"
+    },
+    {
+      "from_table": "specialofferproduct",
+      "from_column": "productid",
+      "to_table": "product",
+      "to_column": "productid"
+    },
+    {
+      "from_table": "specialofferproduct",
+      "from_column": "specialofferid",
+      "to_table": "specialoffer",
+      "to_column": "specialofferid"
+    },
+    {
+      "from_table": "store",
+      "from_column": "businessentityid",
+      "to_table": "businessentity",
+      "to_column": "businessentityid"
+    },
+    {
+      "from_table": "store",
+      "from_column": "salespersonid",
+      "to_table": "salesperson",
+      "to_column": "businessentityid"
+    }
+  ],
+  "llm_summary": "This database schema is designed for an e-commerce and retail management system that tracks various aspects of business operations including sales orders, customers, products, credit cards, territories, and more. The core entities include customers who place orders through a shopping cart or directly as sales orders, with each order detailing items purchased and any discounts applied via special offers. Salespeople are associated with specific territories and manage their quotas and performance metrics. Currency rates help in handling international transactions by converting between different currencies. Additionally, the schema includes tables for managing tax rates applicable to different states and tracking historical changes in territory assignments and salesperson quotas over time."
+}

@@ -1,0 +1,35 @@
+{
+  "status": "failure",
+  "confidence": "low",
+  "sql": "SELECT \n    sod.productid,\n    SUM(sod.orderqty) AS total_quantity_ordered,\n    MAX(sop.discountpct) AS discount_percentage\nFROM \n    sales.salesorderdetail sod\nJOIN \n    sales.specialofferproduct sop ON sod.productid = sop.productid\nGROUP BY \n    sod.productid;",
+  "row_count": null,
+  "attempts_needed": 3,
+  "log": {
+    "task": "List the total quantity ordered per product, including any special offer discount percentage applied, using salesorderdetail and specialofferproduct.",
+    "attempts": [
+      {
+        "attempt": 1,
+        "sql": "SELECT \n    sod.productid,\n    SUM(sod.orderqty) AS total_quantity_ordered,\n    sop.discountpct AS discount_percentage\nFROM \n    sales.salesorderdetail sod\nJOIN \n    sales.specialofferproduct sop ON sod.productid = sop.productid\nGROUP BY \n    sod.productid, sop.discountpct;",
+        "success": false,
+        "error": "column sop.discountpct does not exist\nLINE 4:     sop.discountpct AS discount_percentage\n            ^\n",
+        "refinement_latency": 11.37
+      },
+      {
+        "attempt": 2,
+        "sql": "SELECT \n    sod.productid,\n    SUM(sod.orderqty) AS total_quantity_ordered,\n    MAX(sop.discountpct) AS discount_percentage\nFROM \n    sales.salesorderdetail sod\nJOIN \n    sales.specialofferproduct sop ON sod.productid = sop.productid\nGROUP BY \n    sod.productid;",
+        "success": false,
+        "error": "column sop.discountpct does not exist\nLINE 4:     MAX(sop.discountpct) AS discount_percentage\n                ^\n",
+        "refinement_latency": 11.22
+      },
+      {
+        "attempt": 3,
+        "sql": "SELECT \n    sod.productid,\n    SUM(sod.orderqty) AS total_quantity_ordered,\n    MAX(sop.discountpct) AS discount_percentage\nFROM \n    sales.salesorderdetail sod\nJOIN \n    sales.specialofferproduct sop ON sod.productid = sop.productid\nGROUP BY \n    sod.productid;",
+        "success": false,
+        "error": "column sop.discountpct does not exist\nLINE 4:     MAX(sop.discountpct) AS discount_percentage\n                ^\n"
+      }
+    ],
+    "schema_linking_latency": 25.66,
+    "schema_linking_output": "Tables:\n- `sales.salesorderdetail`\n- `sales.specialofferproduct`\n\nColumns:\n- `sales.salesorderdetail.productid`\n- `sales.salesorderdetail.orderqty`\n- `sales.specialofferproduct.discountpct`\n\nJoin Path:\n1. `sales.salesorderdetail.productid` -> `sales.specialofferproduct.productid`",
+    "candidate_generation_latency": 15.21
+  }
+}
