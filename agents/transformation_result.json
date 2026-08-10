@@ -1,0 +1,69 @@
+{
+  "status": "success",
+  "confidence": "high",
+  "row_count": 1336,
+  "rules_applied": [
+    "DROP_NULLS",
+    "FILL_DEFAULT"
+  ],
+  "log": {
+    "sql": "SELECT customerid, personid, storeid, territoryid FROM sales.customer;",
+    "task_context": "Regional order value aggregation for analytics reporting.",
+    "original_row_count": 19820,
+    "data_profile": {
+      "row_count": 19820,
+      "columns": {
+        "customerid": {
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 19820
+        },
+        "personid": {
+          "null_count": 701,
+          "null_pct": 3.54,
+          "distinct_count": 19119
+        },
+        "storeid": {
+          "null_count": 18484,
+          "null_pct": 93.26,
+          "distinct_count": 701
+        },
+        "territoryid": {
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 10
+        }
+      },
+      "duplicate_row_count": 0
+    },
+    "recommendation_latency": 12.94,
+    "llm_recommendation_raw": "[{\"rule\": \"DROP_NULLS\", \"column\": \"storeid\"}, {\"rule\": \"FILL_DEFAULT\", \"column\": \"personid\", \"value\": \"unknown\"}]",
+    "parsed_rules": [
+      {
+        "rule": "DROP_NULLS",
+        "column": "storeid"
+      },
+      {
+        "rule": "FILL_DEFAULT",
+        "column": "personid",
+        "value": "unknown"
+      }
+    ],
+    "applied_transformations": [
+      {
+        "rule": "DROP_NULLS",
+        "column": "storeid",
+        "rows_before": 19820,
+        "rows_after": 1336,
+        "rows_removed": 18484
+      },
+      {
+        "rule": "FILL_DEFAULT",
+        "column": "personid",
+        "value": "unknown",
+        "rows_filled": 701
+      }
+    ],
+    "final_row_count": 1336
+  }
+}

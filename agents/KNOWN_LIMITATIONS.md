@@ -46,3 +46,29 @@ improve with model size (14b vs 7b both failed, in different ways) --
 suggesting composite-key handling may not simply be a matter of buying a
 bigger model, which is itself a useful negative result for the cost-routing
 analysis.
+
+## Transformation Agent: Semantically-Blind Null Handling (Discovered: Step 15)
+
+**Issue:** The Transformation Agent's LLM-recommended null-handling rules
+(DROP_NULLS specifically) do not account for whether a high null rate is
+data quality noise vs. meaningful business semantics.
+
+**Reproduction case:** `sales.customer.storeid` is null for 93.26% of rows
+in AdventureWorks -- this is NOT dirty data; it correctly distinguishes
+individual retail customers (null storeid) from wholesale/reseller customers
+(non-null storeid). The agent recommended and applied DROP_NULLS on this
+column, collapsing the result set from 19,820 to 1,336 rows -- silently
+deleting the vast majority of legitimate customer records.
+
+**Implication:** Reinforces the Step 14 composite-FK finding: execution
+success/rule application succeeding is not sufficient evidence of a correct
+outcome. Both findings motivate the same design requirement for the
+Monitoring Agent (Step 15): transformations or generations that alter
+row counts beyond a plausibility threshold (e.g., >X% reduction) must be
+flagged for validation/escalation rather than applied silently.
+
+**Status:** Documented. Candidate fix (not yet implemented, avoiding scope
+creep): require the Transformation Agent to report null-percentage alongside
+its recommendation and add an explicit prompt instruction to treat >20%
+null rate as a signal to investigate semantic meaning first, defaulting to
+NONE unless a business-context justification is provided.
