@@ -1,0 +1,6 @@
+{
+  "total_examples": 25,
+  "execution_success_rate": 0.96,
+  "execution_match_accuracy": 0.4,
+  "avg_total_latency_sec": 128.88
+}

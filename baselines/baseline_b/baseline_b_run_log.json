@@ -1,0 +1,14 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "sql": "SELECT c.c_nationkey AS nation_key, SUM(o.o_totalprice) AS total_order_value, COUNT(o.o_orderkey) AS order_count\nFROM tpch.orders o\nJOIN tpch.customer c ON o.o_custkey = c.c_custkey\nGROUP BY c.c_nationkey\nORDER BY c.c_nationkey;",
+      "llm_latency_sec": 87.71,
+      "success": true,
+      "error": null
+    }
+  ],
+  "final_status": "success",
+  "final_sql": "SELECT c.c_nationkey AS nation_key, SUM(o.o_totalprice) AS total_order_value, COUNT(o.o_orderkey) AS order_count\nFROM tpch.orders o\nJOIN tpch.customer c ON o.o_custkey = c.c_custkey\nGROUP BY c.c_nationkey\nORDER BY c.c_nationkey;",
+  "row_count": 25
+}

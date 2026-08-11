@@ -1,0 +1,109 @@
+nohup: ignoring input
+
+=== Example 1/25: thrombosis_prediction ===
+Q: Please list a patient's platelet level if it is within the normal range and if he or she is diagnose
+Total: 29.96s | Success: True | Match: False
+
+=== Example 2/25: toxicology ===
+Q: How much of the hydrogen in molecule TR206 is accounted for? Please provide your answer as a percent
+Total: 20.39s | Success: True | Match: False
+
+=== Example 3/25: california_schools ===
+Q: In which mailing street address can you find the school that has the lowest average score in reading
+Total: 92.61s | Success: True | Match: False
+
+=== Example 4/25: debit_card_specializing ===
+Q: For the deal happened at 2012/8/24 12:42:00, which country was it?
+Total: 29.65s | Success: True | Match: True
+
+=== Example 5/25: codebase_community ===
+Q: User No.3025 gave a comment at 20:29:39 on 2014/4/23 to a post, how many favorite counts did that po
+Total: 66.54s | Success: True | Match: True
+
+=== Example 6/25: card_games ===
+Q: Which card name in the set 'Journey into Nyx Hero's Path' has the highest converted mana cost.
+Total: 30.71s | Success: True | Match: True
+
+=== Example 7/25: card_games ===
+Q: Please list the websites where I can purchase the cards that have the promotional type of "bundle".
+Total: 43.29s | Success: True | Match: True
+
+=== Example 8/25: toxicology ===
+Q: Name chemical elements that form a bond TR001_10_11.
+Total: 85.71s | Success: True | Match: False
+
+=== Example 9/25: debit_card_specializing ===
+Q: How many transactions taken place in the gas station in the Czech Republic are with a price of over 
+Total: 197.0s | Success: True | Match: True
+
+=== Example 10/25: toxicology ===
+Q: Chlorine is in what type of bond?
+Total: 74.63s | Success: True | Match: False
+
+=== Example 11/25: student_club ===
+Q: Which student was able to generate income more than $40?
+Total: 155.79s | Success: True | Match: True
+
+=== Example 12/25: debit_card_specializing ===
+Q: How many transactions were paid in CZK in the morning of 2012/8/26?
+Total: 77.37s | Success: True | Match: True
+
+=== Example 13/25: european_football_2 ===
+Q: List down most tallest players' name.
+Total: 54.84s | Success: True | Match: True
+
+=== Example 14/25: financial ===
+Q: Which kind of credit card does client number 9 possess?
+Total: 127.28s | Success: True | Match: True
+
+=== Example 15/25: thrombosis_prediction ===
+Q: Please provide the diagnosis of patients with ALT glutamic pylvic transaminase beyond the normal ran
+Total: 118.73s | Success: True | Match: False
+
+=== Example 16/25: formula_1 ===
+Q: For the race happened on 2015/11/29, how many drivers finished the game?
+Total: 124.56s | Success: True | Match: True
+
+=== Example 17/25: california_schools ===
+Q: What is the ratio in percentage of Santa Clara County schools that are locally funded compared to al
+Total: 134.96s | Success: True | Match: False
+
+=== Example 18/25: california_schools ===
+Q: How many chartered schools located in the city of Hickman are owned by the Elementary School Distric
+Total: 117.08s | Success: True | Match: True
+
+=== Example 19/25: financial ===
+Q: How many loan accounts are for pre-payment of duration of 24 months with weekly issuance of statemen
+Total: 68.94s | Success: True | Match: True
+
+=== Example 20/25: card_games ===
+Q: Give the code of sets have expansion commander type?
+Total: 95.12s | Success: True | Match: False
+
+=== Example 21/25: card_games ===
+Q: Please list the name of the cards in the set Coldsnap with the highest converted mana cost.
+Total: 152.71s | Success: True | Match: False
+
+=== Example 22/25: european_football_2 ===
+Q: List the players' api id who had the highest above average overall ratings in 2010.
+Total: 275.93s | Success: True | Match: False
+
+=== Example 23/25: thrombosis_prediction ===
+Q: Provide ID, sex and age of patient who has blood glucose (GLU) not within normal range but with tota
+Total: 287.71s | Success: False | Match: False
+
+=== Example 24/25: california_schools ===
+Q: Please specify all of the schools and their related mailing zip codes that are under Avetik Atoian's
+Total: 228.58s | Success: True | Match: False
+
+=== Example 25/25: thrombosis_prediction ===
+Q: Are there more in-patient or outpatient who were male? What is the deviation in percentage?
+Total: 164.8s | Success: True | Match: False
+
+=== PILOT SUMMARY ===
+{
+  "total_examples": 25,
+  "execution_success_rate": 0.96,
+  "execution_match_accuracy": 0.48,
+  "avg_total_latency_sec": 114.2
+}
