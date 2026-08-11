@@ -1,7 +1,7 @@
 {
   "status": "success",
   "confidence": "medium",
-  "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(DISTINCT o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    nation_key;",
+  "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    nation_key;",
   "row_count": 25,
   "attempts_needed": 2,
   "log": {
@@ -9,20 +9,20 @@
     "attempts": [
       {
         "attempt": 1,
-        "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(DISTINCT o.o_orderkey) AS order_count\nFROM \n    customer c\nJOIN \n    orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    nation_key;",
+        "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    customer c\nJOIN \n    orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    nation_key;",
         "success": false,
         "error": "relation \"customer\" does not exist\nLINE 6:     customer c\n            ^\n",
-        "refinement_latency": 25.18
+        "refinement_latency": 12.11
       },
       {
         "attempt": 2,
-        "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(DISTINCT o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    nation_key;",
+        "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    nation_key;",
         "success": true,
         "error": null
       }
     ],
-    "schema_linking_latency": 38.8,
-    "schema_linking_output": "**Relevant Tables:**\n\n- `customer(c_custkey, c_nationkey)`\n- `orders(o_orderkey, o_totalprice, o_custkey)`\n\n**Join Path:**\n- Join `customer` and `orders` on `customer.c_custkey = orders.o_custkey`.\n\n**Aggregation Columns:**\n- `nation_key`: `customer.c_nationkey`\n- `total_order_value`: Sum of `orders.o_totalprice`\n- `order_count`: Count of distinct `orders.o_orderkey`\n\nThis join path and the specified columns will allow you to aggregate total order value and count by customer nation.",
-    "candidate_generation_latency": 26.8
+    "schema_linking_latency": 19.13,
+    "schema_linking_output": "**Relevant Tables:**\n\n- `customer(c_custkey, c_nationkey)`\n- `orders(o_orderkey, o_totalprice, o_custkey)`\n\n**Join Path:**\n- Join `customer` and `orders` on `customer.c_custkey = orders.o_custkey`\n- Aggregate by `customer.c_nationkey`\n\n**Columns Needed for Aggregation:**\n\n- `customer.c_nationkey`\n- `orders.o_totalprice`\n- `orders.o_orderkey` (for counting the number of orders)\n\n**Join Condition:**\n- `customer.c_custkey = orders.o_custkey`",
+    "candidate_generation_latency": 12.53
   }
 }

@@ -1,69 +1,37 @@
 {
   "status": "success",
-  "confidence": "high",
-  "row_count": 1336,
-  "rules_applied": [
-    "DROP_NULLS",
-    "FILL_DEFAULT"
-  ],
+  "confidence": "medium",
+  "row_count": 25,
+  "rules_applied": [],
   "log": {
-    "sql": "SELECT customerid, personid, storeid, territoryid FROM sales.customer;",
+    "sql": "\n        SELECT c.c_nationkey AS nation_key,\n               SUM(o.o_totalprice) AS total_order_value,\n               COUNT(o.o_orderkey) AS order_count\n        FROM tpch.orders o\n        JOIN tpch.customer c ON o.o_custkey = c.c_custkey\n        GROUP BY c.c_nationkey\n        ORDER BY nation_key;\n    ",
     "task_context": "Regional order value aggregation for analytics reporting.",
-    "original_row_count": 19820,
+    "original_row_count": 25,
     "data_profile": {
-      "row_count": 19820,
+      "row_count": 25,
       "columns": {
-        "customerid": {
+        "nation_key": {
           "null_count": 0,
           "null_pct": 0.0,
-          "distinct_count": 19820
+          "distinct_count": 25
         },
-        "personid": {
-          "null_count": 701,
-          "null_pct": 3.54,
-          "distinct_count": 19119
-        },
-        "storeid": {
-          "null_count": 18484,
-          "null_pct": 93.26,
-          "distinct_count": 701
-        },
-        "territoryid": {
+        "total_order_value": {
           "null_count": 0,
           "null_pct": 0.0,
-          "distinct_count": 10
+          "distinct_count": 25
+        },
+        "order_count": {
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 25
         }
       },
       "duplicate_row_count": 0
     },
-    "recommendation_latency": 12.94,
-    "llm_recommendation_raw": "[{\"rule\": \"DROP_NULLS\", \"column\": \"storeid\"}, {\"rule\": \"FILL_DEFAULT\", \"column\": \"personid\", \"value\": \"unknown\"}]",
-    "parsed_rules": [
-      {
-        "rule": "DROP_NULLS",
-        "column": "storeid"
-      },
-      {
-        "rule": "FILL_DEFAULT",
-        "column": "personid",
-        "value": "unknown"
-      }
-    ],
-    "applied_transformations": [
-      {
-        "rule": "DROP_NULLS",
-        "column": "storeid",
-        "rows_before": 19820,
-        "rows_after": 1336,
-        "rows_removed": 18484
-      },
-      {
-        "rule": "FILL_DEFAULT",
-        "column": "personid",
-        "value": "unknown",
-        "rows_filled": 701
-      }
-    ],
-    "final_row_count": 1336
+    "recommendation_latency": 1.23,
+    "llm_recommendation_raw": "[]",
+    "parsed_rules": [],
+    "applied_transformations": [],
+    "final_row_count": 25
   }
 }

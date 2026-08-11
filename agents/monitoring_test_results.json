@@ -23,7 +23,7 @@
         "detail": "2.0s (warn>60s, fail>180s)"
       }
     ],
-    "timestamp": 1786426886.257889
+    "timestamp": 1786429960.7185721
   },
   "test2_degraded": {
     "state": "degraded",
@@ -49,8 +49,8 @@
         "detail": "15.0s (warn>60s, fail>180s)"
       }
     ],
-    "timestamp": 1786426886.2579875,
-    "llm_diagnostic_summary": "The data pipeline is currently in a degraded state due to a significant drop in row count plausibility checks, with the observed number of rows (506) being 43.8% lower than the baseline expectation of 352 rows. This indicates a potential issue with data loss or processing errors that need immediate investigation."
+    "timestamp": 1786429960.7186284,
+    "llm_diagnostic_summary": "The data pipeline is currently in a degraded state due to a significant drop in row count plausibility checks, with the observed number of rows (506) being 43.8% lower than the baseline expectation of 352 rows. This indicates a potential issue with data loss or processing errors that needs immediate investigation."
   },
   "test3_failed": {
     "state": "failed",
@@ -85,7 +85,7 @@
         "detail": "1 column(s) exceed 50.0% null rate -- flagged for review, NOT auto-dropped (Step 15 finding)"
       }
     ],
-    "timestamp": 1786426894.916186,
+    "timestamp": 1786429969.5863066,
     "llm_diagnostic_summary": "The data pipeline has encountered significant issues with data quality: the row count has drastically decreased by 93.3% compared to the baseline, and the null rate for the column `storeid` is extremely high at 93.26%, exceeding the threshold for acceptable null rates. These anomalies suggest potential problems with data ingestion or processing steps that need immediate investigation."
   }
 }

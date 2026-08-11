@@ -25,14 +25,28 @@ DB_CONFIG = {
 SLOW_QUERY_THRESHOLD_MS = 1000  # flag queries slower than this for optimization review
 
 
-def call_llm(prompt: str) -> str:
-    response = requests.post(
-        OLLAMA_URL,
-        json={"model": MODEL, "prompt": prompt, "stream": False, "options": {"temperature": 0.1}},
-        timeout=180,
-    )
-    response.raise_for_status()
-    return response.json()["response"]
+def call_llm(prompt: str, max_retries: int = 3, retry_delay: float = 5.0) -> str:
+    import time
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            response = requests.post(
+                OLLAMA_URL,
+                json={"model": MODEL, "prompt": prompt, "stream": False, "options": {"temperature": 0.1}},
+                timeout=180,
+            )
+            response.raise_for_status()
+            return response.json()["response"]
+        except (Exception,) as e:
+            import requests as _requests
+            if isinstance(e, (_requests.exceptions.ConnectionError, _requests.exceptions.RequestException)):
+                last_error = e
+                if attempt < max_retries:
+                    print(f"  [call_llm retry {attempt}/{max_retries}] {type(e).__name__}: {str(e)[:100]} -- retrying in {retry_delay}s")
+                    time.sleep(retry_delay)
+            else:
+                raise
+    raise ConnectionError(f"Ollama call failed after {max_retries} attempts: {last_error}")
 
 
 def get_execution_plan(sql: str) -> dict:
