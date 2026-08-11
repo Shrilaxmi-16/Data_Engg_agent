@@ -1,0 +1,91 @@
+{
+  "test1_healthy": {
+    "state": "healthy",
+    "fault_class": "none",
+    "checks": [
+      {
+        "check": "execution_status",
+        "passed": true,
+        "detail": "reported status: success"
+      },
+      {
+        "check": "row_count_plausibility",
+        "passed": true,
+        "severity": "healthy",
+        "delta_pct": 0.0,
+        "detail": "baseline=25, observed=25, delta=0.0%"
+      },
+      {
+        "check": "execution_latency",
+        "passed": true,
+        "severity": "healthy",
+        "latency_sec": 2.0,
+        "detail": "2.0s (warn>60s, fail>180s)"
+      }
+    ],
+    "timestamp": 1786422503.501733
+  },
+  "test2_degraded": {
+    "state": "degraded",
+    "fault_class": "data_quality",
+    "checks": [
+      {
+        "check": "execution_status",
+        "passed": true,
+        "detail": "reported status: success"
+      },
+      {
+        "check": "row_count_plausibility",
+        "passed": false,
+        "severity": "degraded",
+        "delta_pct": 43.75,
+        "detail": "baseline=352, observed=506, delta=43.8%"
+      },
+      {
+        "check": "execution_latency",
+        "passed": true,
+        "severity": "healthy",
+        "latency_sec": 15.0,
+        "detail": "15.0s (warn>60s, fail>180s)"
+      }
+    ],
+    "timestamp": 1786422503.5018308,
+    "llm_diagnostic_summary": "The data pipeline is currently in a degraded state due to a significant drop in row count plausibility checks, with the observed number of rows (506) being 43.8% lower than the baseline expectation of 352 rows. This indicates a potential issue with data loss or processing errors that need immediate investigation."
+  },
+  "test3_failed": {
+    "state": "failed",
+    "fault_class": "data_quality",
+    "checks": [
+      {
+        "check": "execution_status",
+        "passed": true,
+        "detail": "reported status: success"
+      },
+      {
+        "check": "row_count_plausibility",
+        "passed": false,
+        "severity": "failed",
+        "delta_pct": 93.26,
+        "detail": "baseline=19820, observed=1336, delta=93.3%"
+      },
+      {
+        "check": "execution_latency",
+        "passed": true,
+        "severity": "healthy",
+        "latency_sec": 5.0,
+        "detail": "5.0s (warn>60s, fail>180s)"
+      },
+      {
+        "check": "null_rate_plausibility",
+        "passed": false,
+        "severity": "degraded",
+        "flagged_columns": {
+          "storeid": 93.26
+        },
+        "detail": "1 column(s) exceed 50.0% null rate -- flagged for review, NOT auto-dropped (Step 15 finding)"
+      }
+    ],
+    "timestamp": 1786422527.067439,
+    "llm_diagnostic_summary": "The data pipeline has encountered significant issues with data quality: the row count has drastically decreased by 93.3% compared to the baseline, and the null rate for the column `storeid` is extremely high at 93.26%, exceeding the threshold for acceptable null rates. These anomalies suggest potential problems with data ingestion or processing steps that need immediate investigation."
+  }
+}
