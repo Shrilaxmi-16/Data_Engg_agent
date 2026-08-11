@@ -1,0 +1,59 @@
+{
+  "test1": {
+    "status": "success",
+    "confidence": "high",
+    "stats": {
+      "total_execution_time_ms": 231.614,
+      "total_planning_time_ms": 1.574,
+      "top_level_node": "Aggregate",
+      "estimated_rows": 25,
+      "actual_rows": 25,
+      "node_types_used": [
+        "Aggregate",
+        "Gather Merge",
+        "Sort",
+        "Aggregate",
+        "Hash Join",
+        "Seq Scan",
+        "Hash",
+        "Seq Scan"
+      ],
+      "has_seq_scan": true,
+      "has_nested_loop": false,
+      "has_hash_join": true,
+      "has_sort": true
+    },
+    "needs_review": false,
+    "recommendations": "No optimization needed -- execution time and plan structure within acceptable bounds."
+  },
+  "test2": {
+    "status": "success",
+    "confidence": "high",
+    "stats": {
+      "total_execution_time_ms": 2067.784,
+      "total_planning_time_ms": 0.612,
+      "top_level_node": "Aggregate",
+      "estimated_rows": 6,
+      "actual_rows": 4,
+      "node_types_used": [
+        "Aggregate",
+        "Gather Merge",
+        "Sort",
+        "Aggregate",
+        "Hash Join",
+        "Hash Join",
+        "Seq Scan",
+        "Hash",
+        "Seq Scan",
+        "Hash",
+        "Index Only Scan"
+      ],
+      "has_seq_scan": true,
+      "has_nested_loop": false,
+      "has_hash_join": true,
+      "has_sort": true
+    },
+    "needs_review": true,
+    "recommendations": "Based on the provided execution statistics and query, there are a couple of optimizations that can be considered:\n\n1. **Indexing**: The presence of sequential scans (`Seq Scan`) indicates that the database might not have efficient indexes for the join conditions or filtering criteria. Adding an index on `tpch.lineitem(l_orderkey)` and `tpch.orders(o_custkey)` could help reduce the need for full table scans.\n\n2. **Partitioning**: If the tables involved (especially `lineitem`) are very large, partitioning them based on a relevant column like `l_orderdate` or `o_orderpriority` can improve query performance by reducing the amount of data that needs to be scanned.\n\nGiven the execution time is 2067.784 ms and there are sequential scans present, these optimizations could help reduce the query execution time significantly."
+  }
+}
