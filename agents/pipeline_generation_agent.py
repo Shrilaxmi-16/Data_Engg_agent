@@ -134,14 +134,23 @@ with DAG(
 '''
 
 
-def call_llm(prompt: str) -> str:
-    response = requests.post(
-        OLLAMA_URL,
-        json={"model": MODEL, "prompt": prompt, "stream": False, "options": {"temperature": 0.1}},
-        timeout=180,
-    )
-    response.raise_for_status()
-    return response.json()["response"]
+def call_llm(prompt: str, max_retries: int = 3, retry_delay: float = 5.0) -> str:
+    import time
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            response = requests.post(
+                OLLAMA_URL,
+                json={"model": MODEL, "prompt": prompt, "stream": False, "options": {"temperature": 0.1}},
+                timeout=180,
+            )
+            response.raise_for_status()
+            return response.json()["response"]
+        except (requests.exceptions.ConnectionError, requests.exceptions.RequestException) as e:
+            last_error = e
+            if attempt < max_retries:
+                time.sleep(retry_delay)
+    raise ConnectionError(f"Ollama call failed after {max_retries} attempts: {last_error}")
 
 
 def llm_fill_target_schema(sql_query: str, target_table: str, target_schema: str = "analytics") -> dict:

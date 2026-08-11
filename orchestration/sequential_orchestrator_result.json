@@ -1,0 +1,644 @@
+{
+  "orchestration_mode": "sequential_non_graph",
+  "pipeline_status": "completed",
+  "timeline": [
+    {
+      "stage": "schema_discovery",
+      "latency_sec": 29.67
+    },
+    {
+      "stage": "sql_generation",
+      "latency_sec": 53.89,
+      "status": "success"
+    },
+    {
+      "stage": "transformation",
+      "latency_sec": 1.62,
+      "status": "success"
+    },
+    {
+      "stage": "pipeline_generation",
+      "latency_sec": 17.23,
+      "status": "success"
+    },
+    {
+      "stage": "monitoring",
+      "latency_sec": 0.0,
+      "state": "healthy"
+    },
+    {
+      "stage": "self_healing",
+      "latency_sec": 0,
+      "action": "none (healthy)"
+    },
+    {
+      "stage": "optimization",
+      "latency_sec": 0.24,
+      "needs_review": false
+    }
+  ],
+  "total_latency_sec": 102.65,
+  "knowledge": {
+    "schema_name": "tpch",
+    "task_description": "Aggregate total order value and order count by customer nation, using the orders and customer tables. Return nation_key, total_order_value, order_count, ordered by nation_key.",
+    "target_table": "regional_orders_orchestrated",
+    "schema": {
+      "schema_name": "tpch",
+      "tables": {
+        "customer": {
+          "columns": [
+            {
+              "column": "c_custkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "c_name",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "c_address",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "c_nationkey",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "c_phone",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "c_acctbal",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "c_mktsegment",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "c_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "c_custkey"
+          ]
+        },
+        "lineitem": {
+          "columns": [
+            {
+              "column": "l_orderkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "l_partkey",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_suppkey",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_linenumber",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "l_quantity",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_extendedprice",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_discount",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_tax",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_returnflag",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_linestatus",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_shipdate",
+              "type": "date",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_commitdate",
+              "type": "date",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_receiptdate",
+              "type": "date",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_shipinstruct",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_shipmode",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "l_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "l_orderkey",
+            "l_linenumber"
+          ]
+        },
+        "nation": {
+          "columns": [
+            {
+              "column": "n_nationkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "n_name",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "n_regionkey",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "n_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "n_nationkey"
+          ]
+        },
+        "orders": {
+          "columns": [
+            {
+              "column": "o_orderkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "o_custkey",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_orderstatus",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_totalprice",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_orderdate",
+              "type": "date",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_orderpriority",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_clerk",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_shippriority",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "o_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "o_orderkey"
+          ]
+        },
+        "part": {
+          "columns": [
+            {
+              "column": "p_partkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "p_name",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_mfgr",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_brand",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_type",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_size",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_container",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_retailprice",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "p_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "p_partkey"
+          ]
+        },
+        "partsupp": {
+          "columns": [
+            {
+              "column": "ps_partkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "ps_suppkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "ps_availqty",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "ps_supplycost",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "ps_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "ps_partkey",
+            "ps_suppkey"
+          ]
+        },
+        "region": {
+          "columns": [
+            {
+              "column": "r_regionkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "r_name",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "r_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "r_regionkey"
+          ]
+        },
+        "supplier": {
+          "columns": [
+            {
+              "column": "s_suppkey",
+              "type": "integer",
+              "nullable": false,
+              "default": null
+            },
+            {
+              "column": "s_name",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "s_address",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "s_nationkey",
+              "type": "integer",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "s_phone",
+              "type": "character",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "s_acctbal",
+              "type": "numeric",
+              "nullable": true,
+              "default": null
+            },
+            {
+              "column": "s_comment",
+              "type": "character varying",
+              "nullable": true,
+              "default": null
+            }
+          ],
+          "primary_keys": [
+            "s_suppkey"
+          ]
+        }
+      },
+      "foreign_keys": [
+        {
+          "from_table": "customer",
+          "from_column": "c_nationkey",
+          "to_table": "nation",
+          "to_column": "n_nationkey"
+        },
+        {
+          "from_table": "lineitem",
+          "from_column": "l_orderkey",
+          "to_table": "orders",
+          "to_column": "o_orderkey"
+        },
+        {
+          "from_table": "nation",
+          "from_column": "n_regionkey",
+          "to_table": "region",
+          "to_column": "r_regionkey"
+        },
+        {
+          "from_table": "orders",
+          "from_column": "o_custkey",
+          "to_table": "customer",
+          "to_column": "c_custkey"
+        },
+        {
+          "from_table": "partsupp",
+          "from_column": "ps_partkey",
+          "to_table": "part",
+          "to_column": "p_partkey"
+        },
+        {
+          "from_table": "partsupp",
+          "from_column": "ps_suppkey",
+          "to_table": "supplier",
+          "to_column": "s_suppkey"
+        },
+        {
+          "from_table": "supplier",
+          "from_column": "s_nationkey",
+          "to_table": "nation",
+          "to_column": "n_nationkey"
+        }
+      ],
+      "llm_summary": "This database schema models a business environment involving customers, suppliers, parts, and orders. The `customer` table stores information about clients, linking them to their respective nations through the `nation` table. Similarly, the `supplier` table holds details of suppliers who are also associated with specific nations via the `nation` table. Orders placed by customers are recorded in the `orders` table and linked back to customer records. Parts supplied by suppliers are detailed in the `part` table, while the relationship between parts and suppliers is managed through the `partsupp` table. Additionally, shipping details for orders are captured in the `lineitem` table, which references both `orders` and `part`. The `region` table organizes nations into broader geographical regions."
+    },
+    "sql_result": {
+      "status": "success",
+      "confidence": "medium",
+      "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    c.c_nationkey;",
+      "row_count": 25,
+      "attempts_needed": 2,
+      "log": {
+        "task": "Aggregate total order value and order count by customer nation, using the orders and customer tables. Return nation_key, total_order_value, order_count, ordered by nation_key.",
+        "attempts": [
+          {
+            "attempt": 1,
+            "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    customer c\nJOIN \n    orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    c.c_nationkey;",
+            "success": false,
+            "error": "relation \"customer\" does not exist\nLINE 6:     customer c\n            ^\n",
+            "refinement_latency": 15.06
+          },
+          {
+            "attempt": 2,
+            "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    c.c_nationkey;",
+            "success": true,
+            "error": null
+          }
+        ],
+        "schema_linking_latency": 23.57,
+        "schema_linking_output": "**Relevant Tables:**\n\n1. **customer**: `c_nationkey`, `c_custkey`\n2. **orders**: `o_orderkey`, `o_totalprice`, `o_custkey`\n\n**Join Path:**\n- Join `customer` and `orders` on `customer.c_custkey = orders.o_custkey`.\n\n**Aggregation Columns:**\n\n1. **nation_key**: `customer.c_nationkey`\n2. **total_order_value**: Sum of `orders.o_totalprice`\n3. **order_count**: Count of `orders.o_orderkey`\n\nThis join path and the specified columns will allow you to aggregate total order value and count by customer nation.",
+        "candidate_generation_latency": 15.04
+      }
+    },
+    "transform_result": {
+      "status": "success",
+      "confidence": "medium",
+      "row_count": 25,
+      "rules_applied": [],
+      "log": {
+        "sql": "SELECT \n    c.c_nationkey AS nation_key,\n    SUM(o.o_totalprice) AS total_order_value,\n    COUNT(o.o_orderkey) AS order_count\nFROM \n    tpch.customer c\nJOIN \n    tpch.orders o ON c.c_custkey = o.o_custkey\nGROUP BY \n    c.c_nationkey\nORDER BY \n    c.c_nationkey;",
+        "task_context": "Aggregate total order value and order count by customer nation, using the orders and customer tables. Return nation_key, total_order_value, order_count, ordered by nation_key.",
+        "original_row_count": 25,
+        "data_profile": {
+          "row_count": 25,
+          "columns": {
+            "nation_key": {
+              "null_count": 0,
+              "null_pct": 0.0,
+              "distinct_count": 25
+            },
+            "total_order_value": {
+              "null_count": 0,
+              "null_pct": 0.0,
+              "distinct_count": 25
+            },
+            "order_count": {
+              "null_count": 0,
+              "null_pct": 0.0,
+              "distinct_count": 25
+            }
+          },
+          "duplicate_row_count": 0
+        },
+        "recommendation_latency": 1.4,
+        "llm_recommendation_raw": "[]",
+        "parsed_rules": [],
+        "applied_transformations": [],
+        "final_row_count": 25
+      }
+    },
+    "dag_generation": {
+      "status": "success",
+      "dag_path": "/home/rit/Documents/Shrilaxmi/Data_Engg/infra/airflow/dags/shield_orchestrated_regional_orders_orchestrated.py"
+    },
+    "monitoring_result": {
+      "state": "healthy",
+      "fault_class": "none",
+      "checks": [
+        {
+          "check": "execution_status",
+          "passed": true,
+          "detail": "reported status: success"
+        },
+        {
+          "check": "row_count_plausibility",
+          "passed": true,
+          "severity": "healthy",
+          "delta_pct": 0.0,
+          "detail": "baseline=25, observed=25, delta=0.0%"
+        },
+        {
+          "check": "execution_latency",
+          "passed": true,
+          "severity": "healthy",
+          "latency_sec": 53.89,
+          "detail": "53.9s (warn>60s, fail>180s)"
+        }
+      ],
+      "timestamp": 1786427629.984454
+    },
+    "healing_result": null,
+    "optimization_result": {
+      "status": "success",
+      "confidence": "high",
+      "stats": {
+        "total_execution_time_ms": 231.299,
+        "total_planning_time_ms": 0.778,
+        "top_level_node": "Aggregate",
+        "estimated_rows": 25,
+        "actual_rows": 25,
+        "node_types_used": [
+          "Aggregate",
+          "Gather Merge",
+          "Sort",
+          "Aggregate",
+          "Hash Join",
+          "Seq Scan",
+          "Hash",
+          "Seq Scan"
+        ],
+        "has_seq_scan": true,
+        "has_nested_loop": false,
+        "has_hash_join": true,
+        "has_sort": true
+      },
+      "needs_review": false,
+      "recommendations": "No optimization needed -- execution time and plan structure within acceptable bounds."
+    },
+    "pipeline_status": "completed"
+  }
+}
