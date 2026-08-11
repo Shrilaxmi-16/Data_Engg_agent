@@ -96,3 +96,24 @@ if the LLM still gets it wrong.
 validation gates rather than trusting prompt compliance alone, even when the
 prompt is explicit and directive. This is now a recurring, well-evidenced
 design principle across three independent agents.
+
+## Fault Injection Harness: Incomplete Type Capture on Restore (Discovered: Step 16)
+
+**Issue:** `inject_type_change`'s original implementation captured only the
+type family via `information_schema.columns.data_type` (e.g., "character"),
+losing length/precision modifiers (e.g., the "(10)" in CHAR(10)). Restoring
+using this incomplete type silently shrank `tpch.customer.c_mktsegment` from
+CHAR(10) to the Postgres default CHAR(1), causing a downstream COPY failure
+("value too long for type character(1)") when reloading TPC-H data.
+
+**Fix:** Use `pg_attribute`/`format_type()` to capture the complete type
+specification including length/precision, not `information_schema`'s
+truncated `data_type` field.
+
+**Meta-note:** This is itself a small, ironic instance of the same
+"execution succeeded, silently wrong" pattern found in Step 14 (composite-FK)
+and Step 15 (null-handling) -- the restore operation completed without error
+but left the schema in a subtly incorrect state, only surfaced later by an
+unrelated operation (data reload) failing. Reinforces the paper's broader
+finding that success/failure status alone is insufficient validation
+throughout this system, including in its own supporting tooling.
