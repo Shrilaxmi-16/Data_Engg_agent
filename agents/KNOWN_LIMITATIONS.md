@@ -117,3 +117,17 @@ but left the schema in a subtly incorrect state, only surfaced later by an
 unrelated operation (data reload) failing. Reinforces the paper's broader
 finding that success/failure status alone is insufficient validation
 throughout this system, including in its own supporting tooling.
+
+## Deferred: LLM Call Retry-Hardening (Noted: Step 17)
+
+**Status:** NOT YET APPLIED. During Step 17's orchestrator testing, Ollama
+went down mid-session (systemd service stopped), causing two failed
+end-to-end runs with unhandled ConnectionError/RemoteDisconnected
+exceptions. A retry wrapper was drafted for Pipeline Generation Agent's
+call_llm() but not yet rolled out to all seven agents.
+
+**Action required before Step 18:** apply consistent retry logic (with
+bounded total timeout, not indefinite retry) to all seven agents'
+call_llm() functions, since Step 18's experimental campaign involves many
+hours of sequential LLM calls where transient Ollama unavailability is a
+realistic, recurring risk -- not a one-off fluke.
