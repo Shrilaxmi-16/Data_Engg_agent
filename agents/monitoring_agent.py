@@ -140,20 +140,26 @@ def identify_fault_class(checks: list) -> str:
     """
     Deterministic mapping from failed/degraded checks to the Step 8 fault
     taxonomy's four classes, for downstream Self-Healing Agent routing.
+
+    Priority order matters (Step 17 integration-test finding): execution_status
+    is checked FIRST, since a hard execution failure is the most direct signal
+    of a sql_semantic fault -- a resulting row_count=0 is a SYMPTOM of that
+    failure, not independent evidence of a data_quality issue. Checking
+    row_count_plausibility first caused a real misclassification (a missing-
+    column SQL error was labeled data_quality instead of sql_semantic).
     """
     failing = [c for c in checks if not c["passed"]]
     if not failing:
         return "none"
 
     check_names = [c["check"] for c in failing]
-    if "row_count_plausibility" in check_names or "null_rate_plausibility" in check_names:
-        return "data_quality"
-    if "execution_latency" in check_names:
-        return "infrastructure"
     if "execution_status" in check_names:
         return "sql_semantic"
+    if "execution_latency" in check_names:
+        return "infrastructure"
+    if "row_count_plausibility" in check_names or "null_rate_plausibility" in check_names:
+        return "data_quality"
     return "unknown"
-
 
 def monitor(execution_result: dict, baseline_count: int = None, latency_sec: float = None,
             column_null_pcts: dict = None) -> dict:

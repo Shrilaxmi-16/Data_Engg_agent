@@ -9,6 +9,13 @@ claim), action EXECUTION uses the LLM where actual repair reasoning is
 needed. This split is what keeps pi a well-defined, fixed function rather
 than an opaque LLM-driven policy -- directly protecting the formal model's
 theoretical grounding (Step 9, Part 4.3).
+
+Step 17 integration-test finding: heal() previously forwarded **action_kwargs
+directly to whichever action function the policy selected, with no
+validation that the caller's supplied arguments matched that action's
+requirements. This caused an unhandled TypeError when Monitoring's fault-
+class routing didn't match what the caller anticipated. Fixed via an
+explicit action-to-required-kwargs contract, validated before dispatch.
 """
 import json
 import re
@@ -43,6 +50,18 @@ HEALING_POLICY = {
     ("failed", "infrastructure"): "restart_task",
     ("degraded", "sql_semantic"): "repair_sql",
     ("failed", "sql_semantic"): "repair_sql",
+}
+
+# Explicit action-to-required-kwargs contract (Step 17 fix). Validated
+# before dispatch in heal(), so a mismatch produces a clear diagnostic
+# error instead of a raw Python TypeError.
+ACTION_REQUIRED_KWARGS = {
+    "repair_sql": {"failed_sql", "error_message", "schema_context"},
+    "exclude_and_flag": {"table", "column", "condition"},
+    "regenerate_dag": {"dag_id", "sql_query", "target_table"},
+    "restart_task": {"dag_id"},
+    "escalate": set(),  # accepts anything as context
+    "none": set(),
 }
 
 MAX_RETRY_ATTEMPTS_BEFORE_ESCALATE = 2
@@ -223,6 +242,24 @@ def heal(monitoring_result: dict, attempt_number: int = 1, **action_kwargs) -> d
 
     action = select_action(state, fault_class, attempt_number)
 
+    # Validate the caller supplied the right arguments for the SELECTED
+    # action -- prevents a silent mismatch between what Monitoring routed
+    # to and what the caller anticipated (Step 17 integration-test finding).
+    required = ACTION_REQUIRED_KWARGS.get(action, set())
+    missing = required - set(action_kwargs.keys())
+    if missing:
+        outcome = {
+            "action": action,
+            "success": False,
+            "error": (
+                f"Missing required arguments for action '{action}': {sorted(missing)}. "
+                f"This indicates the caller's expected action didn't match the policy's "
+                f"actual selection -- check Monitoring Agent's fault_class output "
+                f"(state={state}, fault_class={fault_class})."
+            ),
+        }
+        return _log_healing(action, monitoring_result, outcome)
+
     if action == "none":
         outcome = {"action": "none", "success": True, "note": "state is healthy, no healing needed."}
     elif action == "repair_sql":
@@ -264,5 +301,19 @@ if __name__ == "__main__":
     monitoring_result_3 = {"state": "failed", "fault_class": "infrastructure"}
     result_3 = heal(monitoring_result_3, attempt_number=3, dag_id="test_dag")
     print(json.dumps(result_3, indent=2))
+
+    print("\n=== Test 4: Mismatched kwargs -> clear diagnostic error, not a crash ===")
+    print("(Step 17 regression check: caller supplies repair_sql's kwargs, but")
+    print(" fault_class routes to exclude_and_flag -- should fail gracefully.)")
+    monitoring_result_4 = {"state": "degraded", "fault_class": "data_quality"}
+    result_4 = heal(
+        monitoring_result_4,
+        failed_sql="SELECT 1;",
+        error_message="irrelevant",
+        schema_context="irrelevant",
+    )
+    print(json.dumps(result_4, indent=2))
+    assert result_4["outcome"]["success"] is False, "Mismatched kwargs should fail gracefully, not crash"
+    assert "Missing required arguments" in result_4["outcome"]["error"]
 
     print(f"\nAll healing actions logged to: {HEALING_LOG_PATH}")

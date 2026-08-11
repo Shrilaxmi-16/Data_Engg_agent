@@ -1,0 +1,46 @@
+{
+  "steps": [
+    {
+      "step": "baseline",
+      "success": true,
+      "row_count": 25
+    },
+    {
+      "step": "fault_injection",
+      "fault_class": "sql_semantic",
+      "corrupted_sql": "\n    SELECT c.c_nationkey AS nation_key,\n           SUM(o.o_totalprice) AS total_order_value,\n           COUNT(o.o_orderkey) AS order_count\n    FROM tpch.orders o\n    JOIN tpch.customer c ON o.id = c.id\n    GROUP BY c.c_nationkey\n    ORDER BY nation_key;\n"
+    },
+    {
+      "step": "faulty_execution",
+      "success": false,
+      "error": "column o.id does not exist\nLINE 6:     JOIN tpch.customer c ON o.id = c.id\n                                    ^\n"
+    },
+    {
+      "step": "monitoring_detection",
+      "state": "failed",
+      "fault_class": "sql_semantic",
+      "detection_latency_sec": 6.398
+    },
+    {
+      "step": "self_healing",
+      "action": "repair_sql",
+      "repaired_sql": "SELECT c.c_nationkey AS nation_key,\n       SUM(o.o_totalprice) AS total_order_value,\n       COUNT(o.o_orderkey) AS order_count\nFROM tpch.orders o\nJOIN tpch.customer c ON o.o_custkey = c.c_custkey\nGROUP BY c.c_nationkey\nORDER BY nation_key;",
+      "repair_success": true,
+      "healing_latency_sec": 9.059
+    },
+    {
+      "step": "recovery_verification",
+      "success": true,
+      "row_count": 25,
+      "matches_baseline": true
+    }
+  ],
+  "summary": {
+    "baseline_row_count": 25,
+    "fault_class": "sql_semantic",
+    "recovery_successful": true,
+    "mttd_sec": 6.398,
+    "mttr_sec": 9.059,
+    "total_time_sec": 15.457
+  }
+}
