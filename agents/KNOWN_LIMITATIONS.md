@@ -72,3 +72,27 @@ creep): require the Transformation Agent to report null-percentage alongside
 its recommendation and add an explicit prompt instruction to treat >20%
 null rate as a signal to investigate semantic meaning first, defaulting to
 NONE unless a business-context justification is provided.
+
+## Pipeline Generation Agent: DDL/INSERT Bugs (Discovered and Fixed: Step 15)
+
+**Issue 1:** LLM-generated `CREATE TABLE` statements lacked `IF NOT EXISTS`,
+causing `DuplicateTable` errors on concurrent or repeated DAG runs.
+**Fix:** Deterministic regex enforcement in the template layer -- the agent
+now rewrites any `CREATE TABLE` to `CREATE TABLE IF NOT EXISTS` regardless
+of what the LLM produced, rather than relying on prompt instruction alone.
+
+**Issue 2:** LLM-generated `INSERT` statement included a placeholder for
+`run_timestamp` (4 `%s`) despite the source query only selecting 3 columns,
+causing a runtime `IndexError` when the DAG executed.
+**Fix:** Two-layer defense -- (a) explicit prompt instruction not to include
+`run_timestamp` in the INSERT column list, and (b) a deterministic runtime
+validation gate in the generated DAG comparing `INSERT_SQL_TEMPLATE`'s
+placeholder count against the actual extracted row's column count, failing
+with a clear `SCHEMA MISMATCH` diagnostic rather than an opaque `IndexError`
+if the LLM still gets it wrong.
+
+**Pattern consistent with Step 14/15 findings:** LLM-generated artifacts
+(SQL joins, transformation rules, now DDL/INSERT pairing) require deterministic
+validation gates rather than trusting prompt compliance alone, even when the
+prompt is explicit and directive. This is now a recurring, well-evidenced
+design principle across three independent agents.
